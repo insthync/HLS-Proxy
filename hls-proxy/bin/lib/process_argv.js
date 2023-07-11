@@ -6,6 +6,7 @@ const argv_flags = {
   "--help":                                 {bool: true},
   "--version":                              {bool: true},
 
+  "--serve-secured":                        {bool: true},
   "--tls":                                  {bool: true},
   "--host":                                 {},
   "--port":                                 {num:  "int"},
