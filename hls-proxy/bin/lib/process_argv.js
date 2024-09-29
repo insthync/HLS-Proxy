@@ -2,6 +2,8 @@ const process_argv = require('@warren-bank/node-process-argv')
 
 const {HttpProxyAgent, HttpsProxyAgent} = require('hpagent')
 
+const {normalize_req_headers} = require('../../utils')
+
 const argv_flags = {
   "--help":                                 {bool: true},
   "--version":                              {bool: true},
@@ -11,6 +13,7 @@ const argv_flags = {
   "--host":                                 {},
   "--port":                                 {num:  "int"},
 
+  "--copy-req-headers":                     {bool: true},
   "--req-headers":                          {file: "json"},
   "--origin":                               {},
   "--referer":                              {},
@@ -34,16 +37,21 @@ const argv_flags = {
   "--cache-storage-fs-dirpath":             {file: "path-exists"},
 
   "-v":                                     {num:  "int"},
-  "--acl-whitelist":                        {},
+  "--acl-ip":                               {},
+  "--acl-pass":                             {},
   "--http-proxy":                           {},
 
   "--tls-cert":                             {file: "path-exists"},
   "--tls-key":                              {file: "path-exists"},
-  "--tls-pass":                             {file: "path-exists"}
+  "--tls-pass":                             {file: "path-exists"},
+
+  "--manifest-extension":                   {},
+  "--segment-extension":                    {}
 }
 
 const argv_flag_aliases = {
   "--help":                                 ["-h"],
+  "--acl-ip":                               ["--acl-whitelist"],
   "--http-proxy":                           ["--https-proxy", "--proxy"]
 }
 
@@ -70,7 +78,7 @@ if (argv_vals["--version"]) {
 }
 
 if (argv_vals["--origin"] || argv_vals["--referer"] || argv_vals["--useragent"] || (Array.isArray(argv_vals["--header"]) && argv_vals["--header"].length)) {
-  argv_vals["--req-headers"] = argv_vals["--req-headers"] || {}
+  argv_vals["--req-headers"] = normalize_req_headers( argv_vals["--req-headers"] || {} )
 
   if (argv_vals["--origin"]) {
     argv_vals["--req-headers"]["origin"] = argv_vals["--origin"]
@@ -147,13 +155,8 @@ if (argv_vals["--req-secure-honor-server-cipher-order"] || argv_vals["--req-secu
   }
 }
 
-if (argv_vals["--req-options"] && argv_vals["--req-options"]["headers"]) {
-  const lc_headers = {}
-  for (let key in argv_vals["--req-options"]["headers"]) {
-    lc_headers[ key.toLowerCase() ] = argv_vals["--req-options"]["headers"][key]
-  }
-  argv_vals["--req-options"]["headers"] = lc_headers
-}
+if (argv_vals["--req-options"] && argv_vals["--req-options"]["headers"])
+  argv_vals["--req-options"]["headers"] = normalize_req_headers( argv_vals["--req-options"]["headers"] )
 
 if (typeof argv_vals["--max-segments"] !== 'number')
   argv_vals["--max-segments"] = 20
@@ -166,6 +169,14 @@ if (typeof argv_vals["--cache-key"] !== 'number')
 
 if (typeof argv_vals["-v"] !== 'number')
   argv_vals["-v"] = 0
+
+if (argv_vals["--acl-ip"]) {
+  argv_vals["--acl-ip"] = argv_vals["--acl-ip"].trim().toLowerCase().split(/\s*,\s*/g)
+}
+
+if (argv_vals["--acl-pass"]) {
+  argv_vals["--acl-pass"] = argv_vals["--acl-pass"].trim().split(/\s*,\s*/g)
+}
 
 if (argv_vals["--http-proxy"]) {
   const proxy_options = {
