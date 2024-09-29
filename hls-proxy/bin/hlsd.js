@@ -33,7 +33,7 @@ const server = (use_tls)
 
 const middleware = require('../proxy')({
   is_secure:                            use_tls || argv_vals["--serve-secured"],
-  host:                                 normalize_host(argv_vals["--host"], argv_vals["--port"]),
+  host:                                 argv_vals["--specific-host"] ? argv_vals["--specific-host"] : normalize_host(argv_vals["--host"], argv_vals["--port"]),
   copy_req_headers:                     argv_vals["--copy-req-headers"],
   req_headers:                          argv_vals["--req-headers"],
   req_options:                          argv_vals["--req-options"],
