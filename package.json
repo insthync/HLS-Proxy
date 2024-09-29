@@ -11,11 +11,11 @@
   },
   "dependencies": {
     "@warren-bank/node-process-argv": "^1.2.1",
-    "@warren-bank/node-request": "^2.0.12",
-    "@warren-bank/url": "^3.1.2",
+    "@warren-bank/node-request": "^2.0.13",
+    "@warren-bank/url": "^3.2.1",
     "hpagent": "^1.2.0",
     "regexp-match-indices": "^1.0.2",
-    "tough-cookie": "^3.0.1"
+    "tough-cookie": "^5.0.0"
   },
   "license": "GPL-2.0",
   "author": {
