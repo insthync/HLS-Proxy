@@ -28,4 +28,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/HLS-Proxy:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/hls-proxy:latest
