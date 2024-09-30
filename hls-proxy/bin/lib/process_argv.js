@@ -4,6 +4,8 @@ const {HttpProxyAgent, HttpsProxyAgent} = require('hpagent')
 
 const {normalize_req_headers} = require('../../utils')
 
+require('dotenv').config()
+
 const argv_flags = {
   "--help":                                 {bool: true},
   "--version":                              {bool: true},
@@ -64,6 +66,23 @@ try {
 catch(e) {
   console.log('ERROR: ' + e.message)
   process.exit(1)
+}
+
+for (const argk in argv_flags) {
+  const val = process.env[argk]
+  if (!val) continue;
+  if ("num" in argv_flags[argk]) {
+    if (!argv_vals[argk])
+      argv_vals[argk] = Number(val)
+  } else if ("bool" in argv_flags[argk]) {
+    if (!argv_vals[argk])
+      argv_vals[argk] = Boolean(val)
+  } else if ("file" in argv_flags[argk]) {
+
+  } else {
+    if (!argv_vals[argk])
+      argv_vals[argk] = val
+  }
 }
 
 if (argv_vals["--help"]) {
