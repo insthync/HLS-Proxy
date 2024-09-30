@@ -11,6 +11,7 @@ const argv_flags = {
   "--serve-secured":                        {bool: true},
   "--tls":                                  {bool: true},
   "--host":                                 {},
+  "--specific-host":                        {},
   "--port":                                 {num:  "int"},
 
   "--copy-req-headers":                     {bool: true},
