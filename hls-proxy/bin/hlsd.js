@@ -53,6 +53,8 @@ const middleware = require('../proxy')({
   segment_extension:                    argv_vals["--segment-extension"]
 })
 
+console.log(`Initialized with args: ${JSON.stringify(argv_vals)}`);
+
 if (middleware.connection)
   server.on('connection', middleware.connection)
 

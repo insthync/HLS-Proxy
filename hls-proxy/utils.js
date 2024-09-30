@@ -28,6 +28,7 @@ const parse_req_url = function(params, req) {
     if (serve_address) {
       let redirected_base_url = serve_address.endsWith('/') ? serve_address.substr(0, serve_address.length - 1) : serve_address
       result.redirected_base_url = redirected_base_url
+      console.log(`Set redirected base url to ${redirected_base_url}`)
     }
     
     if (matches[3]) {
