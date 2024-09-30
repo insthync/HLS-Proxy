@@ -3,7 +3,7 @@ name: HLS-Proxy_main
 on:
   push:
     branches:
-      - "main"
+      - "dev"
 
 jobs:
   build:
