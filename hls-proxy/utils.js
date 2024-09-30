@@ -17,7 +17,7 @@ const base64_decode = function(str) {
 }
 
 const parse_req_url = function(params, req) {
-  const {is_secure, host, manifest_extension, segment_extension, hooks} = params
+  const {is_secure, host, serve_address, manifest_extension, segment_extension, hooks} = params
 
   const result = {redirected_base_url: '', url_type: '', url: '', referer_url: ''}
 
@@ -25,7 +25,11 @@ const parse_req_url = function(params, req) {
 
   if (matches) {
     result.redirected_base_url = `${ (is_secure || (host && host.endsWith(':443'))) ? 'https' : 'http' }://${host || req.headers.host}${expressjs.get_base_req_url(req) || matches[1] || ''}`
-
+    if (serve_address) {
+      let redirected_base_url = serve_address.endsWith('/') ? serve_address.substr(0, serve_address.length - 1) : serve_address
+      result.redirected_base_url = redirected_base_url
+    }
+    
     if (matches[3]) {
       result.url_type = matches[3].toLowerCase().trim()
 
