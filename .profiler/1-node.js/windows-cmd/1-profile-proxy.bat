@@ -4,7 +4,7 @@ set DIR=%~dp0.
 
 rem :: https://nodejs.org/en/learn/getting-started/profiling
 
-set hlsd_home=%DIR%\..\..
+set hlsd_home=%DIR%\..\..\..
 set NODE_ENV=production
 
 cd /D "%DIR%"

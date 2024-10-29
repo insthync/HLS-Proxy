@@ -1,5 +1,7 @@
 node_modules/
 
+.profiler/**/.clinic/
+.profiler/**/node_modules/
 .profiler/**/*.log
 .recipes/.lib/**/temp1.txt
 .recipes/.lib/**/temp2.txt
